@@ -1,0 +1,56 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3'
+
+services:
+    # PostgreSQL - Banco de dados
+    postgres:
+        image: 'postgres:9.6-alpine'
+        container_name: db_postgres
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - '5432:5432'
+        environment:
+            - POSTGRES_DB=db_sistema_pedido
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    
+    # Spring boot API - Backend da aplicacao  
+    backend:
+        build: ./backend
+        container_name: backend-api
+        environment:
+            - DB_SERVER=postgres
+            - POSTGRES_DB=db_sistema_pedido
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports:
+            - '8080:8080'
+        links:
+            - postgres
+    
+    # Angular SPA - Frontend da aplicacao
+    frontend:
+        build: ./frontend
+        container_name: frontend-spa
+        ports:
+            '4200:4200'
+        links:
+            - backend
+
+# Volumes para os dados do DB
+volumes:
+    db-data:
+
+
+
+
+
+
+
+
+
+
+    
+    
+
