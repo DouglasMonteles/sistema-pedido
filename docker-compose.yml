@@ -9,7 +9,7 @@ services:
         volumes:
             - db-data:/var/lib/postgresql/data
         ports:
-            - '5432:5432'
+            - '3333:5432'
         environment:
             - POSTGRES_DB=db_sistema_pedido
             - POSTGRES_USER=postgres
@@ -34,7 +34,7 @@ services:
         build: ./frontend
         container_name: frontend-spa
         ports:
-            '4200:4200'
+            - '4200:80'
         links:
             - backend
 

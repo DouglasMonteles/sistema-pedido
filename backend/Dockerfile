@@ -4,9 +4,9 @@ ARG ADDITIONAL_OPTS
 
 ENV ADDITIONAL_OPTS=${ADDITIONAL_OPTS}
 
-WORKDIR /opt/spring_boot
+WORKDIR /spring_boot
 
-COPY ./target/backend.jar backend_api.jar
+COPY /target/backend*.jar backend_api.jar
 
 SHELL ["/bin/sh", "-c"]
 
