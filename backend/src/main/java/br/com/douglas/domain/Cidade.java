@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Cidade")
 @Table(name = "cidade")
 public class Cidade implements Serializable {
@@ -23,6 +25,7 @@ public class Cidade implements Serializable {
 	private Integer id;
 	private String nome;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;

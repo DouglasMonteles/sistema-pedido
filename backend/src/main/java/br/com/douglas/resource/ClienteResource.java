@@ -1,0 +1,30 @@
+package br.com.douglas.resource;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.douglas.domain.Cliente;
+import br.com.douglas.services.ClienteService;
+
+@RestController
+@RequestMapping(value = "/clientes")
+public class ClienteResource {
+
+	private ClienteService service;
+	
+	public ClienteResource(ClienteService service) {
+		super();
+		this.service = service;
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Cliente obj = service.find(id);
+		
+		return ResponseEntity.ok().body(obj);
+	}
+	
+}
