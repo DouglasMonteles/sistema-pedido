@@ -10,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "produto")
+@Entity(name = "Produto")
+@Table(name = "produto")
 public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
