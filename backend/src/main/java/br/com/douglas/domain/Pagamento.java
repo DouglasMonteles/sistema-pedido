@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.douglas.domain.enums.EstadoPagamento;
 
 @Entity(name = "Pagamento")
@@ -29,6 +31,7 @@ public class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estado;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId
