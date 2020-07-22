@@ -1,5 +1,6 @@
 package br.com.douglas;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,18 @@ import br.com.douglas.domain.Cidade;
 import br.com.douglas.domain.Cliente;
 import br.com.douglas.domain.Endereco;
 import br.com.douglas.domain.Estado;
+import br.com.douglas.domain.PagamentoComBoleto;
+import br.com.douglas.domain.PagamentoComCartao;
+import br.com.douglas.domain.Pedido;
 import br.com.douglas.domain.Produto;
+import br.com.douglas.domain.enums.EstadoPagamento;
 import br.com.douglas.domain.enums.TipoCliente;
 import br.com.douglas.repository.CategoriaRepository;
 import br.com.douglas.repository.CidadeRepository;
 import br.com.douglas.repository.ClienteRepository;
 import br.com.douglas.repository.EnderecoRepository;
 import br.com.douglas.repository.EstadoRepository;
+import br.com.douglas.repository.PedidoRepository;
 import br.com.douglas.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +47,9 @@ public class BackendApplication implements CommandLineRunner {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
@@ -93,6 +102,22 @@ public class BackendApplication implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("22/07/2020 17:22"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("21/07/2020 13:10"), cli1, e2);
+		
+		PagamentoComCartao pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		PagamentoComBoleto pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("30/07/2020 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		clienteRepository.saveAll(Arrays.asList(cli1));
 		
 	}
 
