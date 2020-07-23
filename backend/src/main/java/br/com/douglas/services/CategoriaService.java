@@ -2,10 +2,12 @@ package br.com.douglas.services;
 
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.douglas.domain.Categoria;
 import br.com.douglas.repository.CategoriaRepository;
+import br.com.douglas.services.exceptions.DataIntegrityException;
 import br.com.douglas.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -37,6 +39,16 @@ public class CategoriaService {
 		find(obj.getId());
 		
 		return repository.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Erro ao excluir! Não é possivel excluir uma categoria que possui produtos relacionados à ela");
+		}
 	}
 	
 }
