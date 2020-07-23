@@ -33,4 +33,10 @@ public class CategoriaService {
 		
 	}
 	
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		
+		return repository.save(obj);
+	}
+	
 }
