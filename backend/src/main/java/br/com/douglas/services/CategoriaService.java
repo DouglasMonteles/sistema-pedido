@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.douglas.domain.Categoria;
@@ -54,6 +57,12 @@ public class CategoriaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Erro ao excluir! Não é possivel excluir uma categoria que possui produtos relacionados à ela");
 		}
+	}
+	
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
+		PageRequest request = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return repository.findAll(request);
 	}
 	
 }
