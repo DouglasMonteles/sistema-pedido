@@ -1,5 +1,6 @@
 package br.com.douglas.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +19,10 @@ public class CategoriaService {
 	public CategoriaService(CategoriaRepository repository) {
 		super();
 		this.repository = repository;
+	}
+	
+	public List<Categoria> findAll() {
+		return repository.findAll();
 	}
 	
 	public Categoria find(Integer id) {

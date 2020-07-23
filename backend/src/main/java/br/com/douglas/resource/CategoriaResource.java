@@ -1,6 +1,8 @@
 package br.com.douglas.resource;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.douglas.domain.Categoria;
+import br.com.douglas.domain.dto.CategoriaDTO;
 import br.com.douglas.services.CategoriaService;
 
 @RestController
@@ -25,6 +28,17 @@ public class CategoriaResource {
 	public CategoriaResource(CategoriaService service) {
 		super();
 		this.service = service;
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> list = service.findAll();
+		List<CategoriaDTO> listDto = list
+				.stream()
+				.map(it -> new CategoriaDTO(it))
+				.collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@GetMapping(value = "/{id}")
